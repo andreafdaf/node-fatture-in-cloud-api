@@ -1,0 +1,59 @@
+{
+  "name": "fatture-in-cloud-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "lint-fix": "eslint --fix .",
+    "lint": "eslint ."
+  },
+  "author": "Andrea Fernandes da Fonseca <me@adf.ninja> (http://adf.ninja)",
+  "repository": "github:andreafdaf/node-fatture-in-cloud-api",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.10.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "rules": {
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "standard/object-curly-even-spacing": [
+        2,
+        "either"
+      ],
+      "standard/array-bracket-even-spacing": [
+        2,
+        "either"
+      ],
+      "standard/computed-property-even-spacing": [
+        2,
+        "even"
+      ]
+    }
+  }
+}
