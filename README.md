@@ -1,12 +1,12 @@
 # node-fatture-in-cloud-api
 NodeJS wrapper for FattureInCloud API
 
-# Install
+## Install
 ```
 npm install --save fatture-in-cloud-api
 ```
 
-# Authentication
+## Authentication
 Credentials are read from two env vars by default:
 ```
 FATTURE_IN_CLOUD_API_UID
@@ -24,14 +24,14 @@ const credentials = {
 fattureInCloud.credentials = credentials
 ```
 
-# Rate limiting
+## Rate limiting
 As of December 18th, 2018 the API limits are:
 - 30 req/minute (0.5 req/second)
 - 500 req/hour (0.138 req/second)
 
 For now only the first limit is implemented, if you use this API heavily you might run into error_code 2002
 
-# Usage
+## Usage
 ```js
 const fattureInCloud = require('fatture-in-cloud-api')
 
@@ -40,28 +40,28 @@ const invoices = await fattureInCloud.listaDocumentiFatture({ anno: 2018 })
 const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 ```
 
-# Methods
-## Anagrafica
-### Clienti
+## Methods
+### - Anagrafica
+#### Clienti
 - listaAnagraficaClienti
 - nuovoAnagraficaClienti
 - importaAnagraficaClienti
 - modificaAnagraficaClienti
 - eliminaAnagraficaClienti
-### Fornitori
+#### Fornitori
 - listaAnagraficaFornitori
 - nuovoAnagraficaFornitori
 - importaAnagraficaFornitori
 - modificaAnagraficaFornitori
 - eliminaAnagraficaFornitori
-## Prodotti
+### - Prodotti
 - listaProdotti
 - nuovoProdotti
 - importaProdotti
 - modificaProdotti
 - eliminaProdotti
-## Documenti
-### Fatture
+### - Documenti
+#### Fatture
 - listaDocumentiFatture
 - dettagliDocumentiFatture
 - nuovoDocumentiFatture
@@ -70,7 +70,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiFatture
 - infomailDocumentiFatture
 - inviamailDocumentiFatture
-### Ricevute
+#### Ricevute
 - listaDocumentiRicevute
 - dettagliDocumentiRicevute
 - nuovoDocumentiRicevute
@@ -79,7 +79,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiRicevute
 - infomailDocumentiRicevute
 - inviamailDocumentiRicevute
-### Preventivi
+#### Preventivi
 - listaDocumentiPreventivi
 - dettagliDocumentiPreventivi
 - nuovoDocumentiPreventivi
@@ -88,7 +88,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiPreventivi
 - infomailDocumentiPreventivi
 - inviamailDocumentiPreventivi
-### Ordini
+#### Ordini
 - listaDocumentiOrdini
 - dettagliDocumentiOrdini
 - nuovoDocumentiOrdini
@@ -97,7 +97,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiOrdini
 - infomailDocumentiOrdini
 - inviamailDocumentiOrdini
-### Ndc
+#### Ndc
 - listaDocumentiNdc
 - dettagliDocumentiNdc
 - nuovoDocumentiNdc
@@ -106,7 +106,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiNdc
 - infomailDocumentiNdc
 - inviamailDocumentiNdc
-### Proforma
+#### Proforma
 - listaDocumentiProforma
 - dettagliDocumentiProforma
 - nuovoDocumentiProforma
@@ -115,7 +115,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiProforma
 - infomailDocumentiProforma
 - inviamailDocumentiProforma
-### Rapporti
+#### Rapporti
 - listaDocumentiRapporti
 - dettagliDocumentiRapporti
 - nuovoDocumentiRapporti
@@ -124,7 +124,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiRapporti
 - infomailDocumentiRapporti
 - inviamailDocumentiRapporti
-### Ordforn
+#### Ordforn
 - listaDocumentiOrdforn
 - dettagliDocumentiOrdforn
 - nuovoDocumentiOrdforn
@@ -133,7 +133,7 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiOrdforn
 - infomailDocumentiOrdforn
 - inviamailDocumentiOrdforn
-### Ddt
+#### Ddt
 - listaDocumentiDdt
 - dettagliDocumentiDdt
 - nuovoDocumentiDdt
@@ -142,21 +142,21 @@ const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
 - infoDocumentiDdt
 - infomailDocumentiDdt
 - inviamailDocumentiDdt
-## Acquisti
+### - Acquisti
 - listaAcquisti
 - dettagliAcquisti
 - nuovoAcquisti
 - modificaAcquisti
 - eliminaAcquisti
-## Corrispettivi
+### - Corrispettivi
 - listaCorrispettivi
 - nuovoCorrispettivi
 - modificaCorrispettivi
 - eliminaCorrispettivi
-## Magazzino
+### - Magazzino
 - listaMagazzino
 - dettagliMagazzino
-## Mail
+### - Mail
 - listaMail
-## Info
+### - Info
 - accountInfo
