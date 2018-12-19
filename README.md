@@ -12,7 +12,7 @@ Credentials are read from two env vars by default:
 FATTURE_IN_CLOUD_API_UID
 FATTURE_IN_CLOUD_API_KEY
 ```
-You can also set them via a setter method:
+You can also set them using a setter method:
 ```js
 const fattureInCloud = require('fatture-in-cloud-api')
 
@@ -25,11 +25,27 @@ fattureInCloud.credentials = credentials
 ```
 
 ## Rate limiting
-As of December 18th, 2018 the API limits are:
+As of December 18th, 2018 the default API limits are:
 - 30 req/minute (0.5 req/second)
 - 500 req/hour (0.138 req/second)
 
-For now only the first limit is implemented, if you use this API heavily you might run into error_code 2002
+If you have different quotas you can set them from the following env vars:
+```
+FATTURE_IN_CLOUD_API_RPM
+FATTURE_IN_CLOUD_API_RPH
+```
+Or using a setter method:
+```js
+const fattureInCloud = require('fatture-in-cloud-api')
+
+const rateLimiting = {
+  rpm: 100,
+  rph: 1000,
+}
+
+fattureInCloud.rateLimiting = rateLimiting
+
+```
 
 ## Usage
 ```js

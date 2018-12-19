@@ -7,9 +7,16 @@ const endpoints = require('./endpoints')
 const camelCaseJoin = require('./utils/camel-case-join')
 
 const {
+  SECOND_IN_MILLISECONDS,
+  MINUTE_IN_MILLISECONDS,
+  HOUR_IN_MILLISECONDS,
+} = require('./constants')
+
+const {
   buildRequest,
   buildEndpoint,
   buildEndpointWithFacets,
+  scheduleTick,
   tick,
   rateLimitedRequest,
   rateLimitedRequestFactory,
@@ -20,9 +27,12 @@ const {
   queue,
   emitter,
   credentials,
-  tickStart,
-  tickScheduled,
-  requestsInTick,
+  rateLimiting,
+  hourTickStart,
+  minuteTickStart,
+  scheduledTick,
+  requestsInHourTick,
+  requestsInMinuteTick,
 } = require('./symbols/properties')
 
 class FattureInCloudAPI {
@@ -35,7 +45,14 @@ class FattureInCloudAPI {
       api_uid: process.env.FATTURE_IN_CLOUD_API_UID,
       api_key: process.env.FATTURE_IN_CLOUD_API_KEY,
     }
-    this[tickStart] = 0
+    this[rateLimiting] = {
+      rpm: process.env.FATTURE_IN_CLOUD_API_RPM || 30,
+      rph: process.env.FATTURE_IN_CLOUD_API_RPH || 500,
+    }
+    this[hourTickStart] = 0
+    this[minuteTickStart] = 0
+    this[requestsInHourTick] = 0
+    this[requestsInMinuteTick] = 0
     this[initMethods]()
   }
 
@@ -45,6 +62,14 @@ class FattureInCloudAPI {
 
   set credentials ({ api_uid, api_key }) { // eslint-disable-line camelcase
     Object.assign(this[credentials], { api_uid, api_key })
+  }
+
+  get rateLimiting () {
+    return Object.assign({}, this[rateLimiting])
+  }
+
+  set rateLimiting ({ rpm, rph }) {
+    Object.assign(this[rateLimiting], { rpm, rph })
   }
 
   get Class () {
@@ -108,27 +133,52 @@ class FattureInCloudAPI {
     return routes
   }
 
+  [scheduleTick] (duration, diff) {
+    if (!this[scheduledTick]) {
+      this[scheduledTick] = setTimeout(
+        () => this[tick](),
+        duration - diff + SECOND_IN_MILLISECONDS
+      )
+    }
+  }
+
   async [tick] () {
-    const REQUESTS_PER_MINUTE = 30
+    const { rpm, rph } = this[rateLimiting]
 
     const now = Date.now()
-    const diff = now - this[tickStart]
+    const diffHour = now - this[hourTickStart]
+    const diffMinute = now - this[minuteTickStart]
 
-    if (diff > 60000) {
-      this[tickStart] = now
-      this[requestsInTick] = 0
-      delete this[tickScheduled]
-    } else if (this[requestsInTick] >= REQUESTS_PER_MINUTE) {
-      if (this[tickScheduled]) {
-        return
-      }
-      this[tickScheduled] = setTimeout(() => this[tick](), 61000)
+    // check if it's the start of a new tick
+    if (diffHour > HOUR_IN_MILLISECONDS) {
+      this[hourTickStart] = now
+      this[requestsInHourTick] = 0
+    }
+    if (diffMinute > MINUTE_IN_MILLISECONDS) {
+      this[minuteTickStart] = now
+      this[requestsInMinuteTick] = 0
+    }
+
+    // check if request is over quota and schedule a new tick if not already scheduled
+    if (this[requestsInHourTick] >= rph) {
+      this[scheduleTick](HOUR_IN_MILLISECONDS, diffHour)
+      return
+    }
+    if (this[requestsInMinuteTick] >= rpm) {
+      this[scheduleTick](MINUTE_IN_MILLISECONDS, diffMinute)
       return
     }
 
-    const nRequests = REQUESTS_PER_MINUTE - this[requestsInTick]
+    delete this[scheduledTick]
+
+    const nRequestsHour = rph - this[requestsInHourTick]
+    const nRequestsMinute = rpm - this[requestsInMinuteTick]
+    const nRequests = Math.min(nRequestsHour, nRequestsMinute)
+
     const batch = this[queue].splice(0, nRequests)
-    this[requestsInTick] += batch.length
+
+    this[requestsInHourTick] += batch.length
+    this[requestsInMinuteTick] += batch.length
 
     for (const element of batch) {
       const { request, key, data } = element

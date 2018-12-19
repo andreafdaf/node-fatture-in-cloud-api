@@ -1,5 +1,6 @@
 const buildRequest = Symbol('methods/buildRequest')
 const buildEndpoint = Symbol('methods/buildEndpoint')
+const scheduleTick = Symbol('methods/scheduleTick')
 const buildEndpointWithFacets = Symbol('methods/buildEndpointWithFacets')
 const tick = Symbol('methods/tick')
 const rateLimitedRequest = Symbol('methods/rateLimitedRequest')
@@ -10,6 +11,7 @@ module.exports = {
   buildRequest,
   buildEndpoint,
   buildEndpointWithFacets,
+  scheduleTick,
   tick,
   rateLimitedRequest,
   rateLimitedRequestFactory,
