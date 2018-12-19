@@ -4,21 +4,22 @@ const client = require('../index')
 
 /* eslint-disable no-unused-expressions */
 
-describe('Get credentials from process.env', function () {
-  it(`should return an object with properties set`, async function () {
+describe('Credentials management', function () {
+  it(`should return credentials object from getter method`, async function () {
     const { credentials } = client
 
     expect(credentials).to.be.an('object')
+  })
+
+  it(`should default to env vars on startup`, async function () {
+    const { credentials } = client
     const { api_uid, api_key } = credentials // eslint-disable-line camelcase
-    expect(api_uid).to.be.a('string')
-    expect(api_key).to.be.a('string')
+
     expect(api_uid).to.equal(process.env.FATTURE_IN_CLOUD_API_UID)
     expect(api_key).to.equal(process.env.FATTURE_IN_CLOUD_API_KEY)
   })
-})
 
-describe('Modifying returned credentials', function () {
-  it(`should not modify them in the client`, async function () {
+  it(`should return a new object when calling getter method`, async function () {
     const modified = client.credentials
 
     modified.api_uid = 'mod'
@@ -27,19 +28,17 @@ describe('Modifying returned credentials', function () {
     expect(client.credentials.api_uid).to.not.equal(modified.api_uid)
     expect(client.credentials.api_key).to.not.equal(modified.api_key)
   })
-})
 
-describe('Modifying credentials via setter', function () {
-  it(`should modify them in the client`, async function () {
-    const modified = 'mod'
-
-    client.credentials = {
-      api_uid: modified,
-      api_key: modified,
+  it(`should modify credentials in the client when using setter methods`, async function () {
+    const modified = {
+      api_uid: 'mod',
+      api_key: 'mod',
     }
 
-    expect(client.credentials.api_uid).to.equal(modified)
-    expect(client.credentials.api_key).to.equal(modified)
+    client.credentials = modified
+
+    expect(client.credentials.api_uid).to.equal(modified.api_uid)
+    expect(client.credentials.api_key).to.equal(modified.api_key)
   })
 
   after(function () {
