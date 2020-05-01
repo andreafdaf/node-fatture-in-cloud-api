@@ -3,7 +3,9 @@
   "version": "0.0.3",
   "description": "",
   "main": "build/index.js",
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "scripts": {
     "prepublish": "npm run tsc",
     "test": "npm run tsc && mocha",
@@ -15,16 +17,16 @@
   "repository": "github:andreafdaf/node-fatture-in-cloud-api",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "uuid": "^3.3.2"
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^13.13.4",
     "@types/request-promise-native": "^1.0.17",
     "@types/uuid": "^7.0.3",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^7.1.2",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
