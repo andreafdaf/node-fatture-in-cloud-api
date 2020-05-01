@@ -22,7 +22,6 @@ export enum CompositeFacetEnum {
   rapporti = 'rapporti',
   ordforn = 'ordforn',
   ddt = 'ddt',
-
 }
 export enum MethodEnum {
   lista = 'lista',
