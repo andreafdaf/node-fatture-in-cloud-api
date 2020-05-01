@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 
-const client = require('../index')
+const client = require('../build/index')
 
 let responseCount
 

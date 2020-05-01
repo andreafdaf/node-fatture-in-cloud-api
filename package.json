@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "lint-fix": "eslint --fix .",
-    "lint": "eslint ."
+    "test": "npm run tsc && mocha",
+    "lint-fix": "tslint --fix ./src/index.ts",
+    "lint": "tslint ./src/",
+    "tsc": "rm -r ./build/* && tsc"
   },
   "author": "Andrea Fernandes da Fonseca <me@adf.ninja> (http://adf.ninja)",
   "repository": "github:andreafdaf/node-fatture-in-cloud-api",
@@ -17,14 +18,13 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/node": "^13.13.4",
+    "@types/request-promise-native": "^1.0.17",
+    "@types/uuid": "^7.0.3",
     "chai": "^4.2.0",
-    "eslint": "^5.10.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
   },
   "eslintConfig": {
     "extends": [

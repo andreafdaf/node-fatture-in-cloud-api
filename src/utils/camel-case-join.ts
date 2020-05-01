@@ -1,6 +1,6 @@
-const capitalizeFirstLetter = require('./capitalize-first-letter')
+import capitalizeFirstLetter from './capitalize-first-letter'
 
-function camelCaseJoin (words) {
+function camelCaseJoin (words: string[]) {
   const joint = words.reduce((acc, word = '', index) => {
     const current = index ? capitalizeFirstLetter(word) : word
     const str = acc + current
@@ -9,4 +9,4 @@ function camelCaseJoin (words) {
   return joint
 }
 
-module.exports = camelCaseJoin
+export default camelCaseJoin
