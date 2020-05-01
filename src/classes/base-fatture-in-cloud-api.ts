@@ -13,7 +13,7 @@ export default class BaseFattureInCloudAPI extends BaseRateLimitedAPI {
     api_key: process.env.FATTURE_IN_CLOUD_API_KEY || '',
   }
 
-  constructor() {
+  constructor () {
     super()
     this.rateLimiting = {
       rpm: Number(process.env.FATTURE_IN_CLOUD_API_RPM) || 30,

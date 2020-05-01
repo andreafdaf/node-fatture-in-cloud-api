@@ -39,8 +39,8 @@ export enum MethodEnum {
 
 export type Endpoint = {
   base?: keyof typeof BaseEnum
-  facets: Array<keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum>
-  methods: Array<keyof typeof MethodEnum>
+  facets: (keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum)[]
+  methods: (keyof typeof MethodEnum)[]
 }
 
 export default [

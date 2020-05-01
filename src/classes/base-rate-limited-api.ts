@@ -61,12 +61,10 @@ export default abstract class BaseRateLimitedAPI {
 
     // check if request is over quota and schedule a new tick if not already scheduled
     if (this.#requestsInHourTick >= rph) {
-      this.scheduleTick(HOUR_IN_MILLISECONDS, diffHour)
-      return
+      return this.scheduleTick(HOUR_IN_MILLISECONDS, diffHour)
     }
     if (this.#requestsInMinuteTick >= rpm) {
-      this.scheduleTick(MINUTE_IN_MILLISECONDS, diffMinute)
-      return
+      return this.scheduleTick(MINUTE_IN_MILLISECONDS, diffMinute)
     }
 
     this.#scheduledTick = undefined

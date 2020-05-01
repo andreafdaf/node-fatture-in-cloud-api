@@ -10,17 +10,17 @@ import endpoints, {
   MethodEnum,
 } from './data/endpoints'
 
-interface FattureInCloudResponse {
+interface IFattureInCloudResponse {
   success: boolean
   [key: string]: any
 }
 
-interface FattureInCloudRequestFunction extends RequestFunction {
-  (data: object): Promise<FattureInCloudResponse>
+interface IFattureInCloudRequestFunction extends RequestFunction {
+  (data: object): Promise<IFattureInCloudResponse>
 }
 
 type FattureInCloudMethod = {
-  [method in keyof typeof MethodEnum]?: FattureInCloudRequestFunction
+  [method in keyof typeof MethodEnum]?: IFattureInCloudRequestFunction
 }
 
 type FattureInCloudFacetEndpoint = {
@@ -34,16 +34,16 @@ type FattureInCloudCompositeEndpoint = {
 }
 
 type Route = {
-  request: FattureInCloudRequestFunction
+  request: IFattureInCloudRequestFunction
   base?: keyof typeof BaseEnum
   facet: keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum
   method: keyof typeof MethodEnum
 }
 
-const noop = <FattureInCloudRequestFunction> (async () => ({}))
+const noop = (async () => ({})) as IFattureInCloudRequestFunction
 
 class FattureInCloudAPI
-  extends BaseFattureInCloudAPI  
+  extends BaseFattureInCloudAPI
   implements FattureInCloudFacetEndpoint, FattureInCloudCompositeEndpoint
 {
   constructor () {
@@ -56,13 +56,13 @@ class FattureInCloudAPI
   }
 
   private buildRequest ({ path, method }: { path: string, method: string }) {
-    return <FattureInCloudRequestFunction> (async (data: object = {}) => {
+    return (async (data: object = {}) => {
       const body = {
         ...data,
         ...this.credentials,
       }
 
-      const response: FattureInCloudResponse = await post({
+      const response: IFattureInCloudResponse = await post({
         json: true,
         url: `${this.baseUrl}/${path}/${method}`,
         body,
@@ -75,7 +75,7 @@ class FattureInCloudAPI
       }
 
       return response
-    })
+    }) as IFattureInCloudRequestFunction
   }
 
   private buildEndpoint ({ base, facets, methods }: Endpoint) {
@@ -85,7 +85,7 @@ class FattureInCloudAPI
           path: facet,
           method,
         })
-  
+
         return { request, base, facet, method } as Route
       })
 
@@ -103,8 +103,8 @@ class FattureInCloudAPI
 
     for (const { request, base, facet, method } of routes) {
       const rateLimitedRequest = this.rateLimitedRequestFactory<
-        FattureInCloudRequestFunction,
-        FattureInCloudResponse,
+        IFattureInCloudRequestFunction,
+        IFattureInCloudResponse,
         Error
       >(request)
 

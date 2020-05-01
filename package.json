@@ -9,8 +9,8 @@
   "scripts": {
     "prepublish": "npm run tsc",
     "test": "npm run tsc && mocha",
-    "lint-fix": "tslint --fix ./src/index.ts",
-    "lint": "tslint ./src/",
+    "lint-fix": "tslint --fix ./src/**/*.ts",
+    "lint": "tslint ./src/**/*.ts",
     "tsc": "rm -rf ./build && tsc"
   },
   "author": "Andrea Fernandes da Fonseca <me@adf.ninja> (http://adf.ninja)",
@@ -29,35 +29,5 @@
     "mocha": "^7.1.2",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "standard"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2018
-    },
-    "env": {
-      "node": true,
-      "mocha": true
-    },
-    "rules": {
-      "comma-dangle": [
-        "error",
-        "always-multiline"
-      ],
-      "standard/object-curly-even-spacing": [
-        2,
-        "either"
-      ],
-      "standard/array-bracket-even-spacing": [
-        2,
-        "either"
-      ],
-      "standard/computed-property-even-spacing": [
-        2,
-        "even"
-      ]
-    }
   }
 }
