@@ -1,9 +1,7 @@
 import { post } from 'request-promise-native'
 
-import BaseFattureInCloudAPI, {
-  FattureInCloudResponse,
-  FattureInCloudRequestFunction,
-} from './classes/base-fatture-in-cloud-api'
+import BaseFattureInCloudAPI from './classes/base-fatture-in-cloud-api'
+import { RequestFunction } from './classes/base-rate-limited-api'
 import endpoints, {
   Endpoint,
   BaseEnum,
@@ -12,6 +10,29 @@ import endpoints, {
   MethodEnum,
 } from './data/endpoints'
 
+interface FattureInCloudResponse {
+  success: boolean
+  [key: string]: any
+}
+
+interface FattureInCloudRequestFunction extends RequestFunction {
+  (data: object): Promise<FattureInCloudResponse>
+}
+
+type FattureInCloudMethod = {
+  [method in keyof typeof MethodEnum]?: FattureInCloudRequestFunction
+}
+
+type FattureInCloudFacetEndpoint = {
+  [facet in keyof typeof SimpleFacetEnum]: FattureInCloudMethod
+}
+
+type FattureInCloudCompositeEndpoint = {
+  [base in keyof typeof BaseEnum]: {
+    [facet in keyof typeof CompositeFacetEnum]?: FattureInCloudMethod
+  }
+}
+
 type Route = {
   request: FattureInCloudRequestFunction
   base?: keyof typeof BaseEnum
@@ -19,7 +40,12 @@ type Route = {
   method: keyof typeof MethodEnum
 }
 
-class FattureInCloudAPI extends BaseFattureInCloudAPI {
+const noop = <FattureInCloudRequestFunction> (async () => ({}))
+
+class FattureInCloudAPI
+  extends BaseFattureInCloudAPI  
+  implements FattureInCloudFacetEndpoint, FattureInCloudCompositeEndpoint
+{
   constructor () {
     super()
     this.initMethods()
@@ -90,6 +116,153 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
       Reflect.set(where, method, rateLimitedRequest)
       // end reflection trick
     }
+  }
+
+  // the following are here because we want .d.ts files to be generated correctly
+  anagrafica = {
+    clienti: {
+      lista: noop,
+      nuovo: noop,
+      importa: noop,
+      modifica: noop,
+      elimina: noop,
+    },
+    fornitori: {
+      lista: noop,
+      nuovo: noop,
+      importa: noop,
+      modifica: noop,
+      elimina: noop,
+    },
+  }
+
+  prodotti = {
+    lista: noop,
+    nuovo: noop,
+    importa: noop,
+    modifica: noop,
+    elimina: noop,
+  }
+
+  documenti = {
+    fatture: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    ricevute: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    preventivi: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    ordini: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    ndc: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    proforma: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    rapporti: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    ordforn: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+    ddt: {
+      lista: noop,
+      dettagli: noop,
+      nuovo: noop,
+      modifica: noop,
+      elimina: noop,
+      info: noop,
+      infomail: noop,
+      inviamail: noop,
+    },
+  }
+
+  acquisti = {
+    lista: noop,
+    dettagli: noop,
+    nuovo: noop,
+    modifica: noop,
+    elimina: noop,
+  }
+
+  corrispettivi = {
+    lista: noop,
+    nuovo: noop,
+    modifica: noop,
+    elimina: noop,
+  }
+
+  magazzino = {
+    lista: noop,
+    dettagli: noop,
+  }
+
+  mail = {
+    lista: noop,
+  }
+
+  info = {
+    account: noop,
   }
 }
 
