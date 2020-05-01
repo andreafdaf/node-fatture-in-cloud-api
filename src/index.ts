@@ -29,11 +29,8 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
     return FattureInCloudAPI
   }
 
-  private buildRequest ({
-    path = '',
-    method = '',
-  }: { path: string, method: string }): FattureInCloudRequestFunction {
-    return async (data: object = {}) => {
+  private buildRequest ({ path, method }: { path: string, method: string }) {
+    return <FattureInCloudRequestFunction> (async (data: object = {}) => {
       const body = {
         ...data,
         ...this.credentials,
@@ -52,14 +49,10 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
       }
 
       return response
-    }
+    })
   }
 
-  private buildEndpoint ({
-    base,
-    facets,
-    methods,
-  }: Endpoint) {
+  private buildEndpoint ({ base, facets, methods }: Endpoint) {
     const routes = facets.reduce((acc, facet) => {
       const facetRoutes =  methods.map(method => {
         const request = this.buildRequest({

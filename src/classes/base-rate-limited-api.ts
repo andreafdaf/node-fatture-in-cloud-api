@@ -22,7 +22,11 @@ export default abstract class BaseRateLimitedAPI {
     rph: 0,
   }
   #scheduledTick: any
-  #queue: any[] = []
+  #queue: {
+    request: RequestFunction,
+    key: string,
+    data: object,
+  }[] = []
   #emitter: EventEmitter = new EventEmitter()
   #hourTickStart: number = 0
   #minuteTickStart: number = 0
