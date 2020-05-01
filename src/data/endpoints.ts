@@ -2,6 +2,8 @@ export enum BaseEnum {
   anagrafica = 'anagrafica',
   documenti = 'documenti',
 }
+export type BaseEnumValues = keyof typeof BaseEnum
+
 export enum SimpleFacetEnum {
   prodotti = 'prodotti',
   acquisti = 'acquisti',
@@ -10,6 +12,8 @@ export enum SimpleFacetEnum {
   mail = 'mail',
   info = 'info',
 }
+export type SimpleFacetEnumValues = keyof typeof SimpleFacetEnum
+
 export enum CompositeFacetEnum {
   clienti = 'clienti',
   fornitori = 'fornitori',
@@ -23,6 +27,8 @@ export enum CompositeFacetEnum {
   ordforn = 'ordforn',
   ddt = 'ddt',
 }
+export type CompositeFacetEnumValues = keyof typeof CompositeFacetEnum
+
 export enum MethodEnum {
   lista = 'lista',
   dettagli = 'dettagli',
@@ -35,11 +41,12 @@ export enum MethodEnum {
   importa = 'importa',
   account = 'account',
 }
+export type MethodEnumValues = keyof typeof MethodEnum
 
 export type Endpoint = {
-  base?: keyof typeof BaseEnum
-  facets: (keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum)[]
-  methods: (keyof typeof MethodEnum)[]
+  base?: BaseEnumValues
+  facets: (SimpleFacetEnumValues | CompositeFacetEnumValues)[]
+  methods: (MethodEnumValues)[]
 }
 
 const endpoints: Endpoint[] = [

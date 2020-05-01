@@ -4,10 +4,10 @@ import BaseFattureInCloudAPI from './classes/base-fatture-in-cloud-api'
 import { RequestFunction } from './classes/base-rate-limited-api'
 import endpoints, {
   Endpoint,
-  BaseEnum,
-  SimpleFacetEnum,
-  CompositeFacetEnum,
-  MethodEnum,
+  BaseEnumValues,
+  SimpleFacetEnumValues,
+  CompositeFacetEnumValues,
+  MethodEnumValues,
 } from './data/endpoints'
 
 interface IFattureInCloudResponse {
@@ -20,24 +20,24 @@ interface IFattureInCloudRequestFunction extends RequestFunction {
 }
 
 type FattureInCloudMethod = {
-  [method in keyof typeof MethodEnum]?: IFattureInCloudRequestFunction
+  [method in MethodEnumValues]?: IFattureInCloudRequestFunction
 }
 
 type FattureInCloudFacetEndpoint = {
-  [facet in keyof typeof SimpleFacetEnum]: FattureInCloudMethod
+  [facet in SimpleFacetEnumValues]: FattureInCloudMethod
 }
 
 type FattureInCloudCompositeEndpoint = {
-  [base in keyof typeof BaseEnum]: {
-    [facet in keyof typeof CompositeFacetEnum]?: FattureInCloudMethod
+  [base in BaseEnumValues]: {
+    [facet in CompositeFacetEnumValues]?: FattureInCloudMethod
   }
 }
 
 type Route = {
   request: IFattureInCloudRequestFunction
-  base?: keyof typeof BaseEnum
-  facet: keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum
-  method: keyof typeof MethodEnum
+  base?: BaseEnumValues
+  facet: SimpleFacetEnumValues | CompositeFacetEnumValues
+  method: MethodEnumValues
 }
 
 const noop = (() => ({})) as IFattureInCloudRequestFunction
