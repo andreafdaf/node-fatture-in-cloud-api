@@ -28,21 +28,21 @@ export default abstract class BaseRateLimitedAPI {
     data: object,
   }[] = []
   #emitter: EventEmitter = new EventEmitter()
-  #hourTickStart: number = 0
-  #minuteTickStart: number = 0
-  #requestsInHourTick: number = 0
-  #requestsInMinuteTick: number = 0
+  #hourTickStart = 0
+  #minuteTickStart = 0
+  #requestsInHourTick = 0
+  #requestsInMinuteTick = 0
 
-  private scheduleTick (duration: number, diff: number) {
+  private scheduleTick (duration: number, diff: number): void {
     if (!this.#scheduledTick) {
       this.#scheduledTick = setTimeout(
-        () => this.tick(),
+        () => { this.tick() },
         duration - diff + SECOND_IN_MILLISECONDS
       )
     }
   }
 
-  private async tick () {
+  private async tick (): Promise<void> {
     const { rpm, rph } = this.rateLimiting
 
     const now = Date.now()
@@ -67,7 +67,7 @@ export default abstract class BaseRateLimitedAPI {
       return this.scheduleTick(MINUTE_IN_MILLISECONDS, diffMinute)
     }
 
-    this.#scheduledTick = undefined
+    this.#scheduledTick = null
 
     const nRequestsHour = rph - this.#requestsInHourTick
     const nRequestsMinute = rpm - this.#requestsInMinuteTick
@@ -90,7 +90,7 @@ export default abstract class BaseRateLimitedAPI {
     }
   }
 
-  private rateLimitedRequest<T, E extends Error> ({ request, data }: { request: RequestFunction, data: object }) {
+  private rateLimitedRequest<T, E extends Error> ({ request, data }: { request: RequestFunction, data: object }): Promise<T> {
     return new Promise((resolve: (t: T) => void, reject: (e: E) => void) => {
       const key = uuidv4()
 
@@ -111,12 +111,12 @@ export default abstract class BaseRateLimitedAPI {
   }
 
   protected rateLimitedRequestFactory<RF extends RequestFunction, T, E extends Error> (request: RF) {
-    return (data: object = {}) => this.rateLimitedRequest<T, E>({ request, data })
+    return (data: object = {}): Promise<T> => this.rateLimitedRequest<T, E>({ request, data })
   }
 
-  get rateLimiting () {
+  get rateLimiting (): RateLimiting {
     return {
-      ...this.#rateLimiting
+      ...this.#rateLimiting,
     }
   }
 

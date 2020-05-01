@@ -40,7 +40,7 @@ type Route = {
   method: keyof typeof MethodEnum
 }
 
-const noop = (async () => ({})) as IFattureInCloudRequestFunction
+const noop = (() => ({})) as IFattureInCloudRequestFunction
 
 class FattureInCloudAPI
   extends BaseFattureInCloudAPI
@@ -51,11 +51,7 @@ class FattureInCloudAPI
     this.initMethods()
   }
 
-  get Class () {
-    return FattureInCloudAPI
-  }
-
-  private buildRequest ({ path, method }: { path: string, method: string }) {
+  private buildRequest ({ path, method }: { path: string, method: string }): IFattureInCloudRequestFunction {
     return (async (data: object = {}) => {
       const body = {
         ...data,
@@ -78,8 +74,8 @@ class FattureInCloudAPI
     }) as IFattureInCloudRequestFunction
   }
 
-  private buildEndpoint ({ base, facets, methods }: Endpoint) {
-    const routes = facets.reduce((acc, facet) => {
+  private buildEndpoint ({ base, facets, methods }: Endpoint): Route[] {
+    return facets.reduce((acc, facet) => {
       const facetRoutes =  methods.map(method => {
         const request = this.buildRequest({
           path: facet,
@@ -91,11 +87,9 @@ class FattureInCloudAPI
 
       return acc.concat(facetRoutes)
     }, [] as Route[])
-
-    return routes
   }
 
-  private initMethods () {
+  private initMethods (): void {
     const routes: Route[] = []
     for (const e of endpoints) {
       routes.push(...this.buildEndpoint(e))

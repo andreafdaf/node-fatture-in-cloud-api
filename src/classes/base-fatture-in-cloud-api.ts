@@ -9,8 +9,8 @@ export default class BaseFattureInCloudAPI extends BaseRateLimitedAPI {
   baseUrl = 'https://api.fattureincloud.it/v1'
 
   #credentials: Credentials = {
-    api_uid: process.env.FATTURE_IN_CLOUD_API_UID || '',
-    api_key: process.env.FATTURE_IN_CLOUD_API_KEY || '',
+    api_uid: process.env.FATTURE_IN_CLOUD_API_UID || '', // eslint-disable-line @typescript-eslint/camelcase
+    api_key: process.env.FATTURE_IN_CLOUD_API_KEY || '', // eslint-disable-line @typescript-eslint/camelcase
   }
 
   constructor () {

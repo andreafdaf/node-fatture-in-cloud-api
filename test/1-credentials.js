@@ -13,7 +13,7 @@ describe('Credentials management', function () {
 
   it(`should default to env vars on startup`, async function () {
     const { credentials } = client
-    const { api_uid, api_key } = credentials // eslint-disable-line camelcase
+    const { api_uid, api_key } = credentials
 
     expect(api_uid).to.equal(process.env.FATTURE_IN_CLOUD_API_UID)
     expect(api_key).to.equal(process.env.FATTURE_IN_CLOUD_API_KEY)
