@@ -2,8 +2,10 @@
   "name": "fatture-in-cloud-api",
   "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "files": ["build"],
   "scripts": {
+    "prepublish": "npm run tsc",
     "test": "npm run tsc && mocha",
     "lint-fix": "tslint --fix ./src/index.ts",
     "lint": "tslint ./src/",
