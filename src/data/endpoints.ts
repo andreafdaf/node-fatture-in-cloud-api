@@ -42,7 +42,7 @@ export type Endpoint = {
   methods: (keyof typeof MethodEnum)[]
 }
 
-export default [
+const endpoints: Endpoint[] = [
   {
     base: 'anagrafica',
     facets: ['clienti', 'fornitori'],
@@ -77,4 +77,6 @@ export default [
     facets: ['info'],
     methods: ['account'],
   },
-] as Endpoint[]
+]
+
+export default endpoints
