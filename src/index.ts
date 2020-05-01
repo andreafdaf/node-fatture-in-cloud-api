@@ -1,23 +1,22 @@
 import { post } from 'request-promise-native'
 
-import { RequestFunction } from './classes/base-rate-limited-api'
-import BaseFattureInCloudAPI from './classes/base-fatture-in-cloud-api'
-import endpoints from './data/endpoints'
-import camelCaseJoin from './utils/camel-case-join'
-import { MethodsEnum } from './data/methods'
-
-type FattureInCloudResponse = {
-  success: boolean
-  [key: string]: any
-}
-
-interface FattureInCloudRequestFunction extends RequestFunction {
-  (data: object): Promise<FattureInCloudResponse>
-}
+import BaseFattureInCloudAPI, {
+  FattureInCloudResponse,
+  FattureInCloudRequestFunction,
+} from './classes/base-fatture-in-cloud-api'
+import endpoints, {
+  Endpoint,
+  BaseEnum,
+  SimpleFacetEnum,
+  CompositeFacetEnum,
+  MethodEnum,
+} from './data/endpoints'
 
 type Route = {
-  request: FattureInCloudRequestFunction,
-  title: MethodsEnum,
+  request: FattureInCloudRequestFunction
+  base?: keyof typeof BaseEnum
+  facet: keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum
+  method: keyof typeof MethodEnum
 }
 
 class FattureInCloudAPI extends BaseFattureInCloudAPI {
@@ -57,33 +56,18 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
   }
 
   private buildEndpoint ({
-    name = '',
-    methods = [],
-    facet = '',
-  }: { name: string, methods: string[], facet?: string }): Route[] {
-    const routes = methods.map(method => {
-      const request = this.buildRequest({
-        path: facet || name,
-        method,
-      })
-      const title = camelCaseJoin([ method, name, facet ]) as MethodsEnum
-
-      return { request, title } as Route
-    })
-
-    return routes
-  }
-
-  private buildEndpointWithFacets ({
-    name = '',
-    methods = [],
-    facets = [],
-  }: { name: string, methods: string[], facets: string[] }) {
+    base,
+    facets,
+    methods,
+  }: Endpoint) {
     const routes = facets.reduce((acc, facet) => {
-      const facetRoutes = this.buildEndpoint({
-        name,
-        facet,
-        methods,
+      const facetRoutes =  methods.map(method => {
+        const request = this.buildRequest({
+          path: facet,
+          method,
+        })
+  
+        return { request, base, facet, method } as Route
       })
 
       return acc.concat(facetRoutes)
@@ -94,21 +78,24 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
 
   private initMethods () {
     const routes: Route[] = []
-
     for (const e of endpoints) {
-      const endpointRoutes = e.facets.length
-        ? this.buildEndpointWithFacets(e)
-        : this.buildEndpoint(e)
-
-      routes.push(...endpointRoutes)
+      routes.push(...this.buildEndpoint(e))
     }
 
-    for (const { request, title } of routes) {
-      this[title] = this.rateLimitedRequestFactory<
+    for (const { request, base, facet, method } of routes) {
+      const rateLimitedRequest = this.rateLimitedRequestFactory<
         FattureInCloudRequestFunction,
         FattureInCloudResponse,
         Error
       >(request)
+
+      // we need reflection because TS won't let us access those properties programmatically
+      const root = base
+        ? Reflect.get(this, base)
+        : this
+      const where = Reflect.get(root, facet)
+      Reflect.set(where, method, rateLimitedRequest)
+      // end reflection trick
     }
   }
 }

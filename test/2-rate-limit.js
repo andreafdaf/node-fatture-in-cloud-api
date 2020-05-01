@@ -12,7 +12,7 @@ function generateRequests (n, start) {
   for (let i = 0; i < n; i++) {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        const response = await client.listaAnagraficaFornitori()
+        const response = await client.anagrafica.fornitori.lista()
         responseCount += 1
         const now = Date.now()
         const seconds = (now - start) / 1000
@@ -66,8 +66,8 @@ describe('Rate limiting - variables management', function () {
     const { rateLimiting } = newClient
     const { rpm, rph } = rateLimiting // eslint-disable-line camelcase
 
-    expect(rpm).to.equal(process.env.FATTURE_IN_CLOUD_API_RPM)
-    expect(rph).to.equal(process.env.FATTURE_IN_CLOUD_API_RPH)
+    expect(rpm).to.equal(Number(process.env.FATTURE_IN_CLOUD_API_RPM))
+    expect(rph).to.equal(Number(process.env.FATTURE_IN_CLOUD_API_RPH))
   })
 
   it(`should return a new object when calling getter method`, async function () {
@@ -136,7 +136,8 @@ describe('Rate limiting - functionality', function () {
   it(`should not go over quota with 501 concurrent requests (500rph)`, async function () {
     this.timeout(0)
 
-    const promises = generateRequests(501)
+    const start = Date.now()
+    const promises = generateRequests(501, start)
     let err = null
     let results = null
 

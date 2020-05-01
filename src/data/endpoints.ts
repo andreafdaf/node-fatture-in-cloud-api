@@ -1,48 +1,81 @@
-type Endpoint = {
-  name: string
-  facets: string[]
-  methods: string[]
+export enum BaseEnum {
+  anagrafica = 'anagrafica',
+  documenti = 'documenti',
+}
+export enum SimpleFacetEnum {
+  prodotti = 'prodotti',
+  acquisti = 'acquisti',
+  corrispettivi = 'corrispettivi',
+  magazzino = 'magazzino',
+  mail = 'mail',
+  info = 'info',
+}
+export enum CompositeFacetEnum {
+  clienti = 'clienti',
+  fornitori = 'fornitori',
+  fatture = 'fatture',
+  ricevute = 'ricevute',
+  preventivi = 'preventivi',
+  ordini = 'ordini',
+  ndc = 'ndc',
+  proforma = 'proforma',
+  rapporti = 'rapporti',
+  ordforn = 'ordforn',
+  ddt = 'ddt',
+
+}
+export enum MethodEnum {
+  lista = 'lista',
+  dettagli = 'dettagli',
+  nuovo = 'nuovo',
+  modifica = 'modifica',
+  elimina = 'elimina',
+  info = 'info',
+  infomail = 'infomail',
+  inviamail = 'inviamail',
+  importa = 'importa',
+  account = 'account',
+}
+
+export type Endpoint = {
+  base?: keyof typeof BaseEnum
+  facets: Array<keyof typeof SimpleFacetEnum | keyof typeof CompositeFacetEnum>
+  methods: Array<keyof typeof MethodEnum>
 }
 
 const endpoints: Endpoint[] = [
   {
-    name: 'anagrafica',
+    base: 'anagrafica',
     facets: ['clienti', 'fornitori'],
     methods: ['lista', 'nuovo', 'importa', 'modifica', 'elimina'],
   },
   {
-    name: 'prodotti',
-    facets: [],
+    facets: ['prodotti'],
     methods: ['lista', 'nuovo', 'importa', 'modifica', 'elimina'],
   },
   {
-    name: 'documenti',
+    base: 'documenti',
     facets: ['fatture', 'ricevute', 'preventivi', 'ordini', 'ndc', 'proforma', 'rapporti', 'ordforn', 'ddt'],
     methods: ['lista', 'dettagli', 'nuovo', 'modifica', 'elimina', 'info', 'infomail', 'inviamail'],
   },
   {
-    name: 'acquisti',
-    facets: [],
+    facets: ['acquisti'],
     methods: ['lista', 'dettagli', 'nuovo', 'modifica', 'elimina'],
   },
   {
-    name: 'corrispettivi',
-    facets: [],
+    facets: ['corrispettivi'],
     methods: ['lista', 'nuovo', 'modifica', 'elimina'],
   },
   {
-    name: 'magazzino',
-    facets: [],
+    facets: ['magazzino'],
     methods: ['lista', 'dettagli'],
   },
   {
-    name: 'mail',
-    facets: [],
+    facets: ['mail'],
     methods: ['lista'],
   },
   {
-    name: 'info',
-    facets: [],
+    facets: ['info'],
     methods: ['account'],
   },
 ]
