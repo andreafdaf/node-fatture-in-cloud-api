@@ -113,10 +113,4 @@ class FattureInCloudAPI extends BaseFattureInCloudAPI {
   }
 }
 
-const a = async () => {
-  const b = new FattureInCloudAPI()
-  const c = await b.listaAcquisti({})
-}
-a()
-
 export = new FattureInCloudAPI()

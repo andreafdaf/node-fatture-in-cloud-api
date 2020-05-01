@@ -9,7 +9,7 @@
     "test": "npm run tsc && mocha",
     "lint-fix": "tslint --fix ./src/index.ts",
     "lint": "tslint ./src/",
-    "tsc": "rm -r ./build/* && tsc"
+    "tsc": "rm -rf ./build && tsc"
   },
   "author": "Andrea Fernandes da Fonseca <me@adf.ninja> (http://adf.ninja)",
   "repository": "github:andreafdaf/node-fatture-in-cloud-api",
