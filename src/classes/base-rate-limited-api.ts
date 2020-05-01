@@ -91,7 +91,7 @@ export default abstract class BaseRateLimitedAPI {
   }
 
   private rateLimitedRequest<T, E extends Error> ({ request, data }: { request: RequestFunction, data: object }): Promise<T> {
-    return new Promise((resolve: (t: T) => void, reject: (e: E) => void) => {
+    return new Promise((resolve, reject) => {
       const key = uuidv4()
 
       this.#emitter.once(key, ({ error, response }) => {
