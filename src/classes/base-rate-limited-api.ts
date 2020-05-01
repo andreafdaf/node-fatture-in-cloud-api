@@ -7,7 +7,7 @@ import {
   HOUR_IN_MILLISECONDS,
 } from '../data/constants'
 
-export type RateLimiting = {
+type RateLimiting = {
   rpm: number
   rph: number
 }

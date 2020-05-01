@@ -1,7 +1,6 @@
 import BaseRateLimitedAPI, { RequestFunction } from './base-rate-limited-api'
 
-import { MethodsEnum } from '../data/methods'
-import endpoints, {
+import {
   BaseEnum,
   SimpleFacetEnum,
   CompositeFacetEnum,
