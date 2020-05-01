@@ -9,7 +9,7 @@
   "scripts": {
     "prepublish": "npm run tsc",
     "test": "npm run tsc && mocha",
-    "lint-fix": "tslint --fix ./src/**/*.ts",
+    "lint:fix": "tslint --fix ./src/**/*.ts",
     "lint": "tslint ./src/**/*.ts",
     "tsc": "rm -rf ./build && tsc"
   },
