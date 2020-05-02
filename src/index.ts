@@ -1,28 +1,35 @@
-import { FattureInCloudEndpoints, EndpointsEnum } from './classes/fatture-in-cloud-endpoints'
-import BaseEndpoint from './data/base-endpoint'
+import BaseFattureInCloudAPI from './classes/base-fatture-in-cloud-api'
 
-class FattureInCloudAPI extends FattureInCloudEndpoints {
+import * as endpoints from './endpoints'
+
+export = class FattureInCloudAPI extends BaseFattureInCloudAPI {
+  acquisti = new endpoints.Acquisti()
+  client = new endpoints.Clienti()
+  fornitori = new endpoints.Fornitori()
+  corrispettivi = new endpoints.Corrispettivi()
+  fatture = new endpoints.Fatture()
+  ricevute = new endpoints.Ricevute()
+  preventivi = new endpoints.Preventivi()
+  ordini = new endpoints.Ordini()
+  ndc = new endpoints.Ndc()
+  proforma = new endpoints.Proforma()
+  rapporti = new endpoints.Rapporti()
+  ordforn = new endpoints.Ordforn()
+  ddt = new endpoints.Ddt()
+  info = new endpoints.Info()
+  magazzino = new endpoints.Magazzino()
+  mail = new endpoints.Mail()
+  prodotti = new endpoints.Prodotti()
+
   constructor () {
     super()
-    this.initMethods()
-  }
 
-  private initMethods (): void {
-    // we need reflection because TS won't let us access those properties programmatically
-    for (const [base, e] of Object.entries(EndpointsEnum)) {
-      const endpoint: BaseEndpoint = this[e]
-      const root = endpoint.composite
-        ? Reflect.get(this, base)
-        : this
-      for (const [path, methods] of Object.entries(endpoint)) {
-        const where = Reflect.get(root, path)
-        for (const [method] of Object.entries(methods)) {
-          const rateLimitedRequest = this.buildRequest({ path, method })
-          Reflect.set(where, method, rateLimitedRequest)
-        }
+    for (const [path, endpoint] of (Object.entries(endpoints.EndpointsEnum))) {
+      const root = Reflect.get(this, path)
+      for (const [method] of Object.keys(endpoint)) {
+        const rateLimitedRequest = this.buildRequest({ path, method })
+        Reflect.set(root, method, rateLimitedRequest)
       }
     }
   }
 }
-
-export = FattureInCloudAPI

@@ -1,10 +1,6 @@
-import BaseEndpoint from '../data/base-endpoint'
-import noop from '../data/noop'
-
-const methods = {
-  account: noop,
-}
+import BaseEndpoint from '../utils/base-endpoint'
+import noop from '../utils/noop'
 
 export default class Info extends BaseEndpoint {
-  info = { ...methods }
+  account = noop
 }

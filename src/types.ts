@@ -1,4 +1,4 @@
-import { RequestFunction } from '../lib/base-rate-limited-api'
+import { RequestFunction } from './lib/base-rate-limited-api'
 
 export interface IFattureInCloudResponse {
   success: boolean

@@ -1,26 +1,23 @@
-import BaseEndpoint from '../data/base-endpoint'
-import noop from '../data/noop'
+import BaseEndpoint from '../utils/base-endpoint'
+import noop from '../utils/noop'
 
-const methods = {
-  lista: noop,
-  dettagli: noop,
-  nuovo: noop,
-  modifica: noop,
-  elimina: noop,
-  info: noop,
-  infomail: noop,
-  inviamail: noop,
+class Documenti extends BaseEndpoint {
+  lista = noop
+  dettagli = noop
+  nuovo = noop
+  modifica = noop
+  elimina = noop
+  info = noop
+  infomail = noop
+  inviamail = noop
 }
 
-export default class Documenti extends BaseEndpoint {
-  composite = true
-  fatture = { ...methods }
-  ricevute = { ...methods }
-  preventivi = { ...methods }
-  ordini = { ...methods }
-  ndc = { ...methods }
-  proforma = { ...methods }
-  rapporti = { ...methods }
-  ordforn = { ...methods }
-  ddt = { ...methods }
-}
+export class Fatture extends Documenti {}
+export class Ricevute extends Documenti {}
+export class Preventivi extends Documenti {}
+export class Ordini extends Documenti {}
+export class Ndc extends Documenti {}
+export class Proforma extends Documenti {}
+export class Rapporti extends Documenti {}
+export class Ordforn extends Documenti {}
+export class Ddt extends Documenti {}

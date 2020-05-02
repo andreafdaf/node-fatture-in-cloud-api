@@ -1,10 +1,6 @@
-import BaseEndpoint from '../data/base-endpoint'
-import noop from '../data/noop'
-
-const methods = {
-  lista: noop,
-}
+import BaseEndpoint from '../utils/base-endpoint'
+import noop from '../utils/noop'
 
 export default class Mail extends BaseEndpoint {
-  mail = { ...methods }
+  lista = noop
 }

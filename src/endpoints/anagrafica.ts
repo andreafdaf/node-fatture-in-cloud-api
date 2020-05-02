@@ -1,16 +1,13 @@
-import BaseEndpoint from '../data/base-endpoint'
-import noop from '../data/noop'
+import BaseEndpoint from '../utils/base-endpoint'
+import noop from '../utils/noop'
 
-const methods = {
-  lista: noop,
-  nuovo: noop,
-  importa: noop,
-  modifica: noop,
-  elimina: noop,
+class Anagrafica extends BaseEndpoint {
+  lista = noop
+  nuovo = noop
+  importa = noop
+  modifica = noop
+  elimina = noop
 }
 
-export default class Anagrafica extends BaseEndpoint {
-  composite = true
-  clienti = { ...methods }
-  fornitori = { ...methods }
-}
+export class Clienti extends Anagrafica {}
+export class Fornitori extends Anagrafica {}

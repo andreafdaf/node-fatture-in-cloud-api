@@ -1,11 +1,7 @@
-import BaseEndpoint from '../data/base-endpoint'
-import noop from '../data/noop'
-
-const methods = {
-  lista: noop,
-  dettagli: noop,
-}
+import BaseEndpoint from '../utils/base-endpoint'
+import noop from '../utils/noop'
 
 export default class Magazzino extends BaseEndpoint {
-  magazzino = { ...methods }
+  lista = noop
+  dettagli = noop
 }

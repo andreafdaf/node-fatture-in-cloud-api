@@ -1,3 +1,3 @@
-import { IFattureInCloudRequestFunction } from '../data/types'
+import { IFattureInCloudRequestFunction } from '../types'
 
 export default ((): any => ({})) as IFattureInCloudRequestFunction

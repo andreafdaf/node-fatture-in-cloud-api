@@ -1,7 +1,7 @@
 import { post } from 'request-promise-native'
 
 import BaseRateLimitedAPI from '../lib/base-rate-limited-api'
-import { IFattureInCloudRequestFunction, IFattureInCloudResponse } from '../data/types'
+import { IFattureInCloudRequestFunction, IFattureInCloudResponse } from '../types'
 
 type Credentials = {
   api_uid: string

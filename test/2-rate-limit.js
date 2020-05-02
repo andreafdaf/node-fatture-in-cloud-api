@@ -13,7 +13,7 @@ function generateRequests (n, start) {
   for (let i = 0; i < n; i++) {
     const promise = new Promise(async (resolve, reject) => {
       try {
-        const response = await client.anagrafica.fornitori.lista()
+        const response = await client.fornitori.lista()
         responseCount += 1
         const now = Date.now()
         const seconds = (now - start) / 1000

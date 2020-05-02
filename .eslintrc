@@ -137,7 +137,7 @@
     ],
     "id-match": "error",
     "max-classes-per-file": [
-      "error",
+      "off",
       1
     ],
     "new-parens": "error",
