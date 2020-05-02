@@ -1,10 +1,12 @@
 import BaseFattureInCloudAPI from './classes/base-fatture-in-cloud-api'
-
+import { IFattureInCloudAPI, EndpointsEnum, EndpointsEnumValues, MethodsEnumValues } from './types'
 import * as endpoints from './endpoints'
 
-export = class FattureInCloudAPI extends BaseFattureInCloudAPI {
+export = class FattureInCloudAPI
+  extends BaseFattureInCloudAPI
+  implements IFattureInCloudAPI {
   acquisti = new endpoints.Acquisti()
-  client = new endpoints.Clienti()
+  clienti = new endpoints.Clienti()
   fornitori = new endpoints.Fornitori()
   corrispettivi = new endpoints.Corrispettivi()
   fatture = new endpoints.Fatture()
@@ -24,11 +26,10 @@ export = class FattureInCloudAPI extends BaseFattureInCloudAPI {
   constructor () {
     super()
 
-    for (const [path, endpoint] of (Object.entries(endpoints.EndpointsEnum))) {
-      const root = Reflect.get(this, path)
-      for (const [method] of Object.keys(endpoint)) {
+    for (const [path] of (Object.entries(EndpointsEnum) as [EndpointsEnumValues, EndpointsEnum][])) {
+      for (const method of Object.keys(this[path]) as MethodsEnumValues[]) {
         const rateLimitedRequest = this.buildRequest({ path, method })
-        Reflect.set(root, method, rateLimitedRequest)
+        Reflect.set(this[path], method, rateLimitedRequest)
       }
     }
   }

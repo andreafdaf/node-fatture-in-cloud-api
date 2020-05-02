@@ -12,9 +12,9 @@ type RateLimiting = {
   rph: number
 }
 
-export type RequestFunction = (data?: object) => Promise<any>
+export type RequestFunction<T> = (data?: object) => Promise<T>
 
-export default abstract class BaseRateLimitedAPI {
+export default abstract class BaseRateLimitedAPI<RF extends RequestFunction<T>, T, E extends Error> {
   protected abstract baseUrl: string = ''
 
   #rateLimiting: RateLimiting = {
@@ -23,7 +23,7 @@ export default abstract class BaseRateLimitedAPI {
   }
   #scheduledTick: any
   #queue: {
-    request: RequestFunction,
+    request: RF,
     key: string,
     data: object,
   }[] = []
@@ -32,6 +32,19 @@ export default abstract class BaseRateLimitedAPI {
   #minuteTickStart = 0
   #requestsInHourTick = 0
   #requestsInMinuteTick = 0
+
+  get rateLimiting (): RateLimiting {
+    return {
+      ...this.#rateLimiting,
+    }
+  }
+
+  set rateLimiting (value: RateLimiting) {
+    this.#rateLimiting = {
+      ...this.#rateLimiting,
+      ...value,
+    }
+  }
 
   private scheduleTick (duration: number, diff: number): void {
     if (!this.#scheduledTick) {
@@ -90,7 +103,7 @@ export default abstract class BaseRateLimitedAPI {
     }
   }
 
-  private rateLimitedRequest<T, E extends Error> ({ request, data }: { request: RequestFunction, data: object }): Promise<T> {
+  private rateLimitedRequest ({ request, data }: { request: RF, data: object }): Promise<T> {
     return new Promise((resolve, reject) => {
       const key = uuidv4()
 
@@ -110,20 +123,7 @@ export default abstract class BaseRateLimitedAPI {
     })
   }
 
-  protected rateLimitedRequestFactory<RF extends RequestFunction, T, E extends Error> (request: RF) {
-    return (data: object = {}): Promise<T> => this.rateLimitedRequest<T, E>({ request, data })
-  }
-
-  get rateLimiting (): RateLimiting {
-    return {
-      ...this.#rateLimiting,
-    }
-  }
-
-  set rateLimiting (value: RateLimiting) {
-    this.#rateLimiting = {
-      ...this.#rateLimiting,
-      ...value,
-    }
+  protected rateLimitedRequestFactory (request: RF) {
+    return (data: object = {}): Promise<T> => this.rateLimitedRequest({ request, data })
   }
 }

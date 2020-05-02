@@ -1,7 +1,7 @@
-import BaseEndpoint from '../utils/base-endpoint'
+import { BaseEndpoint } from '../types'
 import noop from '../utils/noop'
 
-export default class Corrispettivi extends BaseEndpoint {
+export default class Corrispettivi implements BaseEndpoint {
   lista = noop
   nuovo = noop
   modifica = noop

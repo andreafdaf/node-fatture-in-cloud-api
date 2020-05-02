@@ -1,7 +1,7 @@
-import BaseEndpoint from '../utils/base-endpoint'
+import { BaseEndpoint } from '../types'
 import noop from '../utils/noop'
 
-class Anagrafica extends BaseEndpoint {
+class Anagrafica implements BaseEndpoint {
   lista = noop
   nuovo = noop
   importa = noop

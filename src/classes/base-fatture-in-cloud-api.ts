@@ -8,12 +8,24 @@ type Credentials = {
   api_key: string
 }
 
-export default class BaseFattureInCloudAPI extends BaseRateLimitedAPI {
+export default class BaseFattureInCloudAPI
+  extends BaseRateLimitedAPI<IFattureInCloudRequestFunction, IFattureInCloudResponse, Error> {
   baseUrl = 'https://api.fattureincloud.it/v1'
 
   #credentials: Credentials = {
     api_uid: process.env.FATTURE_IN_CLOUD_API_UID || '', // eslint-disable-line @typescript-eslint/camelcase
     api_key: process.env.FATTURE_IN_CLOUD_API_KEY || '', // eslint-disable-line @typescript-eslint/camelcase
+  }
+
+  get credentials (): Credentials {
+    return { ...this.#credentials }
+  }
+
+  set credentials (value: Credentials) {
+    this.#credentials = {
+      ...this.#credentials,
+      ...value,
+    }
   }
 
   constructor () {
@@ -25,7 +37,7 @@ export default class BaseFattureInCloudAPI extends BaseRateLimitedAPI {
   }
 
   protected buildRequest ({ path, method }: { path: string, method: string }): IFattureInCloudRequestFunction {
-    const request = async (data: object = {}): Promise<IFattureInCloudResponse> => {
+    const request = (async (data: object = {}) => {
       const body = {
         ...data,
         ...this.credentials,
@@ -44,23 +56,8 @@ export default class BaseFattureInCloudAPI extends BaseRateLimitedAPI {
       }
 
       return response
-    }
+    })
 
-    return this.rateLimitedRequestFactory<
-      IFattureInCloudRequestFunction,
-      IFattureInCloudResponse,
-      Error
-    >(request)
-  }
-
-  get credentials (): Credentials {
-    return { ...this.#credentials }
-  }
-
-  set credentials (value: Credentials) {
-    this.#credentials = {
-      ...this.#credentials,
-      ...value,
-    }
+    return this.rateLimitedRequestFactory(request)
   }
 }

@@ -1,7 +1,7 @@
-import BaseEndpoint from '../utils/base-endpoint'
+import { BaseEndpoint } from '../types'
 import noop from '../utils/noop'
 
-export default class Acquisti extends BaseEndpoint {
+export default class Acquisti implements BaseEndpoint {
   lista = noop
   dettagli = noop
   nuovo = noop
