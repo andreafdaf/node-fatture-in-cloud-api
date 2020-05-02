@@ -11,9 +11,9 @@ npm install --save fatture-in-cloud-api
 const FattureInCloudAPI = require('fatture-in-cloud-api')
 const fic = new FattureInCloudApi()
 
-const customers = await fic.anagrafica.clienti.lista()
-const invoices = await fic.documenti.fatture.lista({ anno: 2020 })
-const customer = await fic.anagrafica.clienti.nuovo({ nome: 'Andrea' })
+const customers = await fic.clienti.lista()
+const invoices = await fic.fatture.lista({ anno: 2020 })
+const customer = await fic.clienti.nuovo({ nome: 'Andrea' })
 ```
 
 ## Authentication
@@ -53,7 +53,6 @@ fic.rateLimiting = rateLimiting
 ```
 
 ## Methods
-#### Anagrafica
 ### Clienti
 - lista
 - nuovo
@@ -66,13 +65,12 @@ fic.rateLimiting = rateLimiting
 - importa
 - modifica
 - elimina
-#### Prodotti
+### Prodotti
 - lista
 - nuovo
 - importa
 - modifica
 - elimina
-#### Documenti
 ### Fatture
 - lista
 - dettagli
@@ -154,21 +152,21 @@ fic.rateLimiting = rateLimiting
 - info
 - infomail
 - inviamail
-#### Acquisti
+### Acquisti
 - lista
 - dettagli
 - nuovo
 - modifica
 - elimina
-#### Corrispettivi
+### Corrispettivi
 - lista
 - nuovo
 - modifica
 - elimina
-#### Magazzino
+### Magazzino
 - lista
 - dettagli
-#### Mail
+### Mail
 - lista
-#### Info
+### Info
 - account
