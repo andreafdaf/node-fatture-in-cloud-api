@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 
-const client = require('../index')
+const FICAPI = require('../build/index')
+const client = new FICAPI()
 
 /* eslint-disable no-unused-expressions */
 
@@ -13,7 +14,7 @@ describe('Credentials management', function () {
 
   it(`should default to env vars on startup`, async function () {
     const { credentials } = client
-    const { api_uid, api_key } = credentials // eslint-disable-line camelcase
+    const { api_uid, api_key } = credentials
 
     expect(api_uid).to.equal(process.env.FATTURE_IN_CLOUD_API_UID)
     expect(api_key).to.equal(process.env.FATTURE_IN_CLOUD_API_KEY)

@@ -1,59 +1,37 @@
 {
   "name": "fatture-in-cloud-api",
-  "version": "0.0.3",
+  "version": "1.0.0b",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
-    "test": "mocha",
-    "lint-fix": "eslint --fix .",
-    "lint": "eslint ."
+    "prepublish": "npm run tsc",
+    "test": "npm run tsc && mocha",
+    "lint:fix": "eslint --fix ./src/**/*.ts",
+    "lint": "eslint ./src/**/*.ts",
+    "tsc": "rm -rf ./build && tsc"
   },
   "author": "Andrea Fernandes da Fonseca <me@adf.ninja> (http://adf.ninja)",
   "repository": "github:andreafdaf/node-fatture-in-cloud-api",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "uuid": "^3.3.2"
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "@types/node": "^13.13.4",
+    "@types/request-promise-native": "^1.0.17",
+    "@types/uuid": "^7.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
     "chai": "^4.2.0",
-    "eslint": "^5.10.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^5.2.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "standard"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2018
-    },
-    "env": {
-      "node": true,
-      "mocha": true
-    },
-    "rules": {
-      "comma-dangle": [
-        "error",
-        "always-multiline"
-      ],
-      "standard/object-curly-even-spacing": [
-        2,
-        "either"
-      ],
-      "standard/array-bracket-even-spacing": [
-        2,
-        "either"
-      ],
-      "standard/computed-property-even-spacing": [
-        2,
-        "even"
-      ]
-    }
+    "eslint": "^6.8.0",
+    "mocha": "^7.1.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
   }
 }

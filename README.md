@@ -6,6 +6,16 @@ NodeJS wrapper for FattureInCloud API
 npm install --save fatture-in-cloud-api
 ```
 
+## Usage
+```js
+const FattureInCloudAPI = require('fatture-in-cloud-api')
+const fic = new FattureInCloudApi()
+
+const customers = await fic.clienti.lista()
+const invoices = await fic.fatture.lista({ anno: 2020 })
+const customer = await fic.clienti.nuovo({ nome: 'Andrea' })
+```
+
 ## Authentication
 Credentials are read from two env vars by default:
 ```
@@ -14,14 +24,12 @@ FATTURE_IN_CLOUD_API_KEY
 ```
 You can also set them using a setter method:
 ```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
 const credentials = {
   api_uid: 'uid',
   api_key: 'key',
 }
 
-fattureInCloud.credentials = credentials
+fic.credentials = credentials
 ```
 
 ## Rate limiting
@@ -36,143 +44,129 @@ FATTURE_IN_CLOUD_API_RPH
 ```
 Or using a setter method:
 ```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
 const rateLimiting = {
   rpm: 100,
   rph: 1000,
 }
 
-fattureInCloud.rateLimiting = rateLimiting
-
-```
-
-## Usage
-```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
-const customers = await fattureInCloud.listaAnagraficaClienti()
-const invoices = await fattureInCloud.listaDocumentiFatture({ anno: 2018 })
-const customer = await fattureInCloud.nuovoAnagraficaClienti({ nome: 'Andrea' })
+fic.rateLimiting = rateLimiting
 ```
 
 ## Methods
-### - Anagrafica
-#### Clienti
-- listaAnagraficaClienti
-- nuovoAnagraficaClienti
-- importaAnagraficaClienti
-- modificaAnagraficaClienti
-- eliminaAnagraficaClienti
-#### Fornitori
-- listaAnagraficaFornitori
-- nuovoAnagraficaFornitori
-- importaAnagraficaFornitori
-- modificaAnagraficaFornitori
-- eliminaAnagraficaFornitori
-### - Prodotti
-- listaProdotti
-- nuovoProdotti
-- importaProdotti
-- modificaProdotti
-- eliminaProdotti
-### - Documenti
-#### Fatture
-- listaDocumentiFatture
-- dettagliDocumentiFatture
-- nuovoDocumentiFatture
-- modificaDocumentiFatture
-- eliminaDocumentiFatture
-- infoDocumentiFatture
-- infomailDocumentiFatture
-- inviamailDocumentiFatture
-#### Ricevute
-- listaDocumentiRicevute
-- dettagliDocumentiRicevute
-- nuovoDocumentiRicevute
-- modificaDocumentiRicevute
-- eliminaDocumentiRicevute
-- infoDocumentiRicevute
-- infomailDocumentiRicevute
-- inviamailDocumentiRicevute
-#### Preventivi
-- listaDocumentiPreventivi
-- dettagliDocumentiPreventivi
-- nuovoDocumentiPreventivi
-- modificaDocumentiPreventivi
-- eliminaDocumentiPreventivi
-- infoDocumentiPreventivi
-- infomailDocumentiPreventivi
-- inviamailDocumentiPreventivi
-#### Ordini
-- listaDocumentiOrdini
-- dettagliDocumentiOrdini
-- nuovoDocumentiOrdini
-- modificaDocumentiOrdini
-- eliminaDocumentiOrdini
-- infoDocumentiOrdini
-- infomailDocumentiOrdini
-- inviamailDocumentiOrdini
-#### Ndc
-- listaDocumentiNdc
-- dettagliDocumentiNdc
-- nuovoDocumentiNdc
-- modificaDocumentiNdc
-- eliminaDocumentiNdc
-- infoDocumentiNdc
-- infomailDocumentiNdc
-- inviamailDocumentiNdc
-#### Proforma
-- listaDocumentiProforma
-- dettagliDocumentiProforma
-- nuovoDocumentiProforma
-- modificaDocumentiProforma
-- eliminaDocumentiProforma
-- infoDocumentiProforma
-- infomailDocumentiProforma
-- inviamailDocumentiProforma
-#### Rapporti
-- listaDocumentiRapporti
-- dettagliDocumentiRapporti
-- nuovoDocumentiRapporti
-- modificaDocumentiRapporti
-- eliminaDocumentiRapporti
-- infoDocumentiRapporti
-- infomailDocumentiRapporti
-- inviamailDocumentiRapporti
-#### Ordforn
-- listaDocumentiOrdforn
-- dettagliDocumentiOrdforn
-- nuovoDocumentiOrdforn
-- modificaDocumentiOrdforn
-- eliminaDocumentiOrdforn
-- infoDocumentiOrdforn
-- infomailDocumentiOrdforn
-- inviamailDocumentiOrdforn
-#### Ddt
-- listaDocumentiDdt
-- dettagliDocumentiDdt
-- nuovoDocumentiDdt
-- modificaDocumentiDdt
-- eliminaDocumentiDdt
-- infoDocumentiDdt
-- infomailDocumentiDdt
-- inviamailDocumentiDdt
-### - Acquisti
-- listaAcquisti
-- dettagliAcquisti
-- nuovoAcquisti
-- modificaAcquisti
-- eliminaAcquisti
-### - Corrispettivi
-- listaCorrispettivi
-- nuovoCorrispettivi
-- modificaCorrispettivi
-- eliminaCorrispettivi
-### - Magazzino
-- listaMagazzino
-- dettagliMagazzino
-### - Mail
-- listaMail
-### - Info
-- accountInfo
+### Clienti
+- lista
+- nuovo
+- importa
+- modifica
+- elimina
+### Fornitori
+- lista
+- nuovo
+- importa
+- modifica
+- elimina
+### Prodotti
+- lista
+- nuovo
+- importa
+- modifica
+- elimina
+### Fatture
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Ricevute
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Preventivi
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Ordini
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Ndc
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Proforma
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Rapporti
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Ordforn
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Ddt
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+- info
+- infomail
+- inviamail
+### Acquisti
+- lista
+- dettagli
+- nuovo
+- modifica
+- elimina
+### Corrispettivi
+- lista
+- nuovo
+- modifica
+- elimina
+### Magazzino
+- lista
+- dettagli
+### Mail
+- lista
+### Info
+- account
