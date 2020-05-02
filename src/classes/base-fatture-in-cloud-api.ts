@@ -37,7 +37,7 @@ export default class BaseFattureInCloudAPI
   }
 
   protected buildRequest ({ path, method }: { path: string, method: string }): IFattureInCloudRequestFunction {
-    const request = (async (data: object = {}) => {
+    const request = (async (data: object = {}): Promise<IFattureInCloudResponse> => {
       const body = {
         ...data,
         ...this.credentials,
