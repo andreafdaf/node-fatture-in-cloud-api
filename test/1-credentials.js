@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 
-const client = require('../build/index')
+const FICAPI = require('../build/index')
+const client = new FICAPI()
 
 /* eslint-disable no-unused-expressions */
 

@@ -6,6 +6,16 @@ NodeJS wrapper for FattureInCloud API
 npm install --save fatture-in-cloud-api
 ```
 
+## Usage
+```js
+const FattureInCloudAPI = require('fatture-in-cloud-api')
+const fic = new FattureInCloudApi()
+
+const customers = await fic.anagrafica.clienti.lista()
+const invoices = await fic.documenti.fatture.lista({ anno: 2020 })
+const customer = await fic.anagrafica.clienti.nuovo({ nome: 'Andrea' })
+```
+
 ## Authentication
 Credentials are read from two env vars by default:
 ```
@@ -14,14 +24,12 @@ FATTURE_IN_CLOUD_API_KEY
 ```
 You can also set them using a setter method:
 ```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
 const credentials = {
   api_uid: 'uid',
   api_key: 'key',
 }
 
-fattureInCloud.credentials = credentials
+fic.credentials = credentials
 ```
 
 ## Rate limiting
@@ -36,48 +44,36 @@ FATTURE_IN_CLOUD_API_RPH
 ```
 Or using a setter method:
 ```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
 const rateLimiting = {
   rpm: 100,
   rph: 1000,
 }
 
-fattureInCloud.rateLimiting = rateLimiting
-
-```
-
-## Usage
-```js
-const fattureInCloud = require('fatture-in-cloud-api')
-
-const customers = await fattureInCloud.anagrafica.clienti.lista()
-const invoices = await fattureInCloud.documenti.fatture.lista({ anno: 2020 })
-const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' })
+fic.rateLimiting = rateLimiting
 ```
 
 ## Methods
-### - Anagrafica
-#### Clienti
+#### Anagrafica
+### Clienti
 - lista
 - nuovo
 - importa
 - modifica
 - elimina
-#### Fornitori
+### Fornitori
 - lista
 - nuovo
 - importa
 - modifica
 - elimina
-### - Prodotti
+#### Prodotti
 - lista
 - nuovo
 - importa
 - modifica
 - elimina
-### - Documenti
-#### Fatture
+#### Documenti
+### Fatture
 - lista
 - dettagli
 - nuovo
@@ -86,7 +82,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Ricevute
+### Ricevute
 - lista
 - dettagli
 - nuovo
@@ -95,7 +91,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Preventivi
+### Preventivi
 - lista
 - dettagli
 - nuovo
@@ -104,7 +100,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Ordini
+### Ordini
 - lista
 - dettagli
 - nuovo
@@ -113,7 +109,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Ndc
+### Ndc
 - lista
 - dettagli
 - nuovo
@@ -122,7 +118,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Proforma
+### Proforma
 - lista
 - dettagli
 - nuovo
@@ -131,7 +127,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Rapporti
+### Rapporti
 - lista
 - dettagli
 - nuovo
@@ -140,7 +136,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Ordforn
+### Ordforn
 - lista
 - dettagli
 - nuovo
@@ -149,7 +145,7 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-#### Ddt
+### Ddt
 - lista
 - dettagli
 - nuovo
@@ -158,21 +154,21 @@ const customer = await fattureInCloud.anagrafica.clienti.nuovo({ nome: 'Andrea' 
 - info
 - infomail
 - inviamail
-### - Acquisti
+#### Acquisti
 - lista
 - dettagli
 - nuovo
 - modifica
 - elimina
-### - Corrispettivi
+#### Corrispettivi
 - lista
 - nuovo
 - modifica
 - elimina
-### - Magazzino
+#### Magazzino
 - lista
 - dettagli
-### - Mail
+#### Mail
 - lista
-### - Info
+#### Info
 - account

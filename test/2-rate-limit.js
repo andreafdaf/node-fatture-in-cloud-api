@@ -1,6 +1,7 @@
 const expect = require('chai').expect
 
-const client = require('../build/index')
+const FICAPI = require('../build/index')
+const client = new FICAPI()
 
 let responseCount
 
@@ -50,7 +51,7 @@ describe('Rate limiting - variables management', function () {
     delete process.env.FATTURE_IN_CLOUD_API_RPM
     delete process.env.FATTURE_IN_CLOUD_API_RPH
 
-    const newClient = new client.Class()
+    const newClient = new FICAPI()
     const { rateLimiting } = newClient
     const { rpm, rph } = rateLimiting //
 
@@ -62,7 +63,7 @@ describe('Rate limiting - variables management', function () {
     process.env.FATTURE_IN_CLOUD_API_RPM = 1
     process.env.FATTURE_IN_CLOUD_API_RPH = 1
 
-    const newClient = new client.Class()
+    const newClient = new FICAPI()
     const { rateLimiting } = newClient
     const { rpm, rph } = rateLimiting // eslint-disable-line camelcase
 

@@ -5,7 +5,7 @@ import {
   SECOND_IN_MILLISECONDS,
   MINUTE_IN_MILLISECONDS,
   HOUR_IN_MILLISECONDS,
-} from '../data/constants'
+} from './constants'
 
 type RateLimiting = {
   rpm: number
