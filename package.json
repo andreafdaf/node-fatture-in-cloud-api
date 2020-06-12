@@ -1,6 +1,6 @@
 {
   "name": "fatture-in-cloud-api",
-  "version": "1.0.0b",
+  "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
   "files": [
